@@ -1,0 +1,264 @@
+.performance-metrics-container {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.metrics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.metrics-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.refresh-button {
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.2s;
+}
+
+.refresh-button:hover {
+  background-color: #f5f5f5;
+  border-color: #999;
+}
+
+.metrics-tabs {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.metrics-tabs button {
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  position: relative;
+  color: #666;
+}
+
+.metrics-tabs button.active {
+  color: #1976d2;
+  font-weight: 600;
+}
+
+.metrics-tabs button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #1976d2;
+}
+
+/* Overview Tab */
+.overview-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.metric-card {
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-title {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.metric-value {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.progress-bar {
+  margin-top: 10px;
+  height: 6px;
+  background-color: #eee;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  border-radius: 3px;
+}
+
+/* Documents Tab */
+.documents-metrics h4 {
+  margin-top: 0;
+  color: #555;
+  font-size: 1.1rem;
+}
+
+.document-citations-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.document-citation-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.document-name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 10px;
+  font-size: 0.9rem;
+}
+
+.citation-count {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  min-width: 24px;
+  text-align: center;
+  margin-right: 10px;
+}
+
+.citation-bar {
+  flex-basis: 100%;
+  height: 6px;
+  background-color: #eee;
+  border-radius: 3px;
+  margin-top: 5px;
+  overflow: hidden;
+}
+
+.citation-progress {
+  height: 100%;
+  background-color: #2196f3;
+  border-radius: 3px;
+}
+
+/* Queries Tab */
+.queries-metrics h4 {
+  margin-top: 0;
+  color: #555;
+  font-size: 1.1rem;
+}
+
+.query-types-chart {
+  margin-bottom: 20px;
+}
+
+.chart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.chart-label {
+  width: 100px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.chart-bar-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.chart-bar {
+  height: 20px;
+  border-radius: 3px;
+  min-width: 5px;
+}
+
+.chart-bar.math {
+  background-color: #4caf50;
+}
+
+.chart-bar.factual {
+  background-color: #ff9800;
+}
+
+.chart-bar.general {
+  background-color: #2196f3;
+}
+
+.chart-value {
+  margin-left: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.query-stats {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.query-stat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stat-value {
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.stat-value.success {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.stat-value.failure {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.no-data-message {
+  color: #999;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .overview-metrics {
+    grid-template-columns: 1fr;
+  }
+  
+  .chart-label {
+    width: 80px;
+  }
+}

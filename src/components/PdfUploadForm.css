@@ -1,0 +1,438 @@
+/* PdfUploadForm.css - Modern & Elegant Styling */
+
+/* Main container */
+.pdf-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.5rem 0;
+}
+
+/* Dropzone styling with glass morphism effect */
+.pdf-dropzone {
+  position: relative;
+  border: 2px dashed var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem 1.5rem;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  text-align: center;
+  background-color: var(--bg-secondary);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Active state when file is dragged over */
+.pdf-dropzone.active {
+  border-color: var(--primary-color);
+  background-color: rgba(79, 70, 229, 0.05);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.pdf-dropzone:hover:not(.disabled) {
+  border-color: var(--primary-light);
+  background-color: rgba(79, 70, 229, 0.03);
+}
+
+.pdf-dropzone.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--bg-secondary);
+}
+
+/* Dropzone content styling */
+.dropzone-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dropzone-icon {
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  background: rgba(79, 70, 229, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+  transition: all var(--transition-normal);
+}
+
+.active .dropzone-icon {
+  transform: scale(1.05);
+  background: rgba(79, 70, 229, 0.2);
+}
+
+.dropzone-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.dropzone-primary {
+  font-weight: 600;
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+}
+
+.dropzone-secondary {
+  font-size: var(--font-size-sm);
+  color: var(--text-light);
+  display: block;
+}
+
+/* Error message styling */
+.pdf-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: rgba(239, 68, 68, 0.08);
+  border-left: 3px solid var(--error-color);
+  border-radius: var(--border-radius-md);
+  color: var(--error-color);
+  font-size: var(--font-size-sm);
+  animation: fadeIn 0.3s ease;
+}
+
+/* Selected files section */
+.pdf-files {
+  background-color: var(--bg-secondary);
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  transition: all var(--transition-normal);
+}
+
+.pdf-files-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.02);
+  margin-bottom: 0.75rem;
+}
+
+[data-theme="dark"] .pdf-files-header {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.pdf-files-header h4 {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.pdf-files-list {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+/* File item styling */
+.pdf-file-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.75rem;
+  border-radius: var(--border-radius-md);
+  background-color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.5rem;
+  transition: all var(--transition-normal);
+  animation: slideUp 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.pdf-file-item:last-child {
+  margin-bottom: 0;
+}
+
+.pdf-file-item:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+[data-theme="dark"] .pdf-file-item {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .pdf-file-item:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.pdf-file-icon {
+  color: #ef4444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pdf-file-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.pdf-file-name {
+  font-weight: 500;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pdf-file-size {
+  font-size: var(--font-size-xs);
+  color: var(--text-light);
+}
+
+/* Remove button styling */
+.pdf-file-remove {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  flex-shrink: 0;
+}
+
+.pdf-file-remove:hover:not(:disabled) {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error-color);
+  transform: scale(1.1);
+}
+
+.pdf-file-remove:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Process button styling */
+.pdf-process-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-md);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+  font-size: var(--font-size-md);
+  margin-top: 0.5rem;
+}
+
+.pdf-process-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pdf-process-btn:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+}
+
+.pdf-process-btn:disabled {
+  background-color: var(--secondary-color);
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.pdf-process-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pdf-process-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.pdf-process-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.pdf-process-btn:disabled {
+  background: linear-gradient(135deg, #a0a0a0, #c0c0c0);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Loading spinner animation */
+.loading-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+  margin-right: 0.5rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* File status indicators */
+.pdf-file-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5rem;
+  width: 24px; /* Berikan lebar tetap */
+  height: 24px; /* Berikan tinggi tetap */
+}
+
+.file-processing-indicator {
+  color: var(--primary-color);
+  animation: rotate 1.5s linear infinite;
+  will-change: transform; /* Optimasi rendering */
+}
+
+.file-processed-indicator {
+  color: var(--success-color);
+  animation: scaleIn 0.3s ease forwards; /* Pastikan animasi hanya sekali dengan forwards */
+}
+
+/* Animasi rotasi untuk indikator loading dengan optimasi */
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes scaleIn {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Status file dalam daftar */
+.pdf-file-item.processing {
+  border-left: 3px solid var(--primary-color);
+  background-color: rgba(var(--primary-color-rgb), 0.03); /* Warna background tetap */
+}
+
+.pdf-file-item.processed {
+  border-left: 3px solid var(--success-color);
+}
+
+.pdf-file-item.failed .pdf-file-status {
+  color: var(--error-color);
+}
+
+/* Status pemrosesan global di header */
+.processing-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary-color);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+}
+
+.global-processing-indicator {
+  animation: rotate 1.5s linear infinite;
+  will-change: transform; /* Optimasi rendering */
+}
+
+/* Status auto-processing */
+.auto-processing-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background-color: rgba(var(--primary-color-rgb), 0.05);
+  border-radius: var(--border-radius-md);
+  color: var(--primary-color);
+  font-size: var(--font-size-sm);
+}
+
+.processing-indicator {
+  animation: rotate 1.5s linear infinite;
+  will-change: transform; /* Optimasi rendering */
+}
+
+/* Animasi pulse untuk file yang sedang diproses */
+@keyframes pulse {
+  0% { background-color: rgba(var(--primary-color-rgb), 0.0); }
+  100% { background-color: rgba(var(--primary-color-rgb), 0.05); }
+}
+
+/* Modifikasi header file untuk menambahkan status */
+.pdf-files-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .pdf-dropzone {
+    padding: 1.5rem 1rem;
+  }
+  
+  .dropzone-icon {
+    height: 60px;
+    width: 60px;
+  }
+  
+  .pdf-files-list {
+    max-height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pdf-dropzone {
+    padding: 1.25rem 0.75rem;
+  }
+  
+  .dropzone-icon {
+    height: 50px;
+    width: 50px;
+  }
+  
+  .pdf-file-item {
+    padding: 0.6rem 0.6rem;
+  }
+  
+  .pdf-process-btn {
+    padding: 0.7rem 1.2rem;
+  }
+}

@@ -1,0 +1,156 @@
+/* StorageUsage.css - Minimalist storage usage indicator */
+
+:root {
+  --primary-color: #6366f1;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --card-bg: #f8fafc;
+  --dark-card-bg: #2d3748;
+  --text-muted: #64748b;
+  --dark-text-muted: #94a3b8;
+  --progress-bg: rgba(0, 0, 0, 0.05);
+  --dark-progress-bg: #1a202c;
+  --highlight-bg: rgba(99, 102, 241, 0.1);
+}
+
+.minimal-storage-usage {
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 6px;
+  background-color: var(--card-bg);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Animation when storage changes */
+@keyframes storageUpdated {
+  0% { background-color: var(--card-bg); }
+  50% { background-color: var(--highlight-bg); }
+  100% { background-color: var(--card-bg); }
+}
+
+.minimal-storage-usage.storage-updated {
+  animation: storageUpdated 2s ease-in-out;
+}
+
+.storage-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.storage-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  font-size: 12px;
+  position: relative;
+}
+
+.storage-percent {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.storage-progress-container {
+  background-color: var(--progress-bg);
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.storage-progress {
+  height: 100%;
+  background-color: var(--primary-color);
+  border-radius: 3px;
+  transition: width 1s ease-in-out;
+}
+
+.storage-progress.warning {
+  background-color: var(--warning-color);
+}
+
+.storage-progress.danger {
+  background-color: var(--danger-color);
+}
+
+.storage-details {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.storage-error-text {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--danger-color);
+}
+
+/* Refresh button styling */
+.storage-refresh-btn {
+  background: none;
+  border: none;
+  padding: 2px;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  transition: all 0.2s ease-in-out;
+  position: absolute;
+  right: -20px;
+  top: 0;
+}
+
+.storage-refresh-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.storage-refresh-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Rotating animation for loading state */
+@keyframes rotating {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.rotating {
+  animation: rotating 1.5s linear infinite;
+}
+
+/* Highlight animation for value changes */
+@keyframes highlight {
+  0% { color: var(--text-muted); }
+  50% { color: var(--primary-color); }
+  100% { color: var(--text-muted); }
+}
+
+.storage-updated .storage-details {
+  animation: highlight 2s ease-in-out;
+  font-weight: 500;
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] .minimal-storage-usage {
+  background-color: var(--dark-card-bg);
+}
+
+[data-theme="dark"] .storage-title,
+[data-theme="dark"] .storage-details {
+  color: var(--dark-text-muted);
+}
+
+[data-theme="dark"] .storage-progress-container {
+  background-color: var(--dark-progress-bg);
+}

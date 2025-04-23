@@ -125,43 +125,64 @@ const ChatMessages = ({ messages, isProcessing, onRateMessage }) => {
   };
   
   // Enhanced markdown renderer with LaTeX support
-  const MarkdownRenderer = ({ content, hasMath = false }) => (
-    <div className={`markdown-content ${hasMath ? 'has-math' : ''}`}>
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm, remarkMath]} 
-        rehypePlugins={[rehypeKatex]}
-        components={{
-          code({inline, className, children, ...props}) {
-            // Filter out any custom props that React doesn't expect
-            const { jsx, node, ...filteredProps } = props;
-            const match = /language-(\w+)/.exec(className || '');
-            return !inline && match ? (
-              <SyntaxHighlighter
-                style={vscDarkPlus}
-                language={match[1]}
-                PreTag="div"
-                {...filteredProps}
-              >
-                {String(children).replace(/\n$/, '')}
-              </SyntaxHighlighter>
-            ) : (
-              <code className={className} {...filteredProps}>
-                {children}
-              </code>
-            );
-          }
-        }}
-      >
-        {content}
-      </ReactMarkdown>
-    </div>
-  );
+  const MarkdownRenderer = ({ content, hasMath = false }) => {
+    // Preprocess content to ensure paragraphs are preserved
+    const preprocessedContent = content
+      // Ensure double newlines are preserved for paragraphs
+      .replace(/\n\n/g, '\n\n')
+      // Handle LaTeX blocks specially to preserve them
+      .replace(/(\$\$[\s\S]*?\$\$|\$[\s\S]*?\$)/g, match => {
+        // Add special markers around LaTeX to preserve it
+        return match;
+      });
+      
+    return (
+      <div className={`markdown-content ${hasMath ? 'has-math' : ''}`}>
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm, remarkMath]} 
+          rehypePlugins={[rehypeKatex]}
+          components={{
+            // Handling paragraphs to preserve white space
+            p: ({node, ...props}) => <p style={{whiteSpace: 'pre-wrap'}} {...props} />,
+            // Handling code blocks with syntax highlighting
+            code({inline, className, children, ...props}) {
+              // Filter out any custom props that React doesn't expect
+              const { jsx, node, ...filteredProps } = props;
+              const match = /language-(\w+)/.exec(className || '');
+              return !inline && match ? (
+                <SyntaxHighlighter
+                  style={vscDarkPlus}
+                  language={match[1]}
+                  PreTag="div"
+                  {...filteredProps}
+                >
+                  {String(children).replace(/\n$/, '')}
+                </SyntaxHighlighter>
+              ) : (
+                <code className={className} {...filteredProps}>
+                  {children}
+                </code>
+              );
+            }
+          }}
+        >
+          {preprocessedContent}
+        </ReactMarkdown>
+      </div>
+    );
+  };
 
   const toggleThinkingMessage = (id) => {
     setExpandedThinkingMessages(prev => ({
       ...prev,
       [id]: !prev[id]
     }));
+  };
+
+  // Preprocess user messages to preserve paragraph formatting
+  const formatUserMessage = (content) => {
+    if (!content) return '';
+    return content;
   };
 
   return (
@@ -202,9 +223,10 @@ const ChatMessages = ({ messages, isProcessing, onRateMessage }) => {
               
               {isExpanded && (
                 <div className="thinking-content">
-                  {message.content.split('\n').map((line, i) => (
-                    <p key={i}>{line}</p>
-                  ))}
+                  <MarkdownRenderer 
+                    content={message.content} 
+                    hasMath={containsMath(message.content)} 
+                  />
                 </div>
               )}
             </div>
@@ -240,7 +262,9 @@ const ChatMessages = ({ messages, isProcessing, onRateMessage }) => {
                   ) : (
                     <>
                       {isUser ? (
-                        <div>{message.content}</div>
+                        <div style={{whiteSpace: "pre-wrap"}}>
+                          {formatUserMessage(message.content)}
+                        </div>
                       ) : (
                         <div className="bot-message">
                           <MarkdownRenderer 

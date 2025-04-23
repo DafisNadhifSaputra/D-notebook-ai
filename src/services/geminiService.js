@@ -1874,7 +1874,7 @@ const getSourceCitations = (relevantDocs) => {
  * @returns {string} - System prompt
  */
 const buildSystemPrompt = (isMathQuery, showThinkingProcess, responseStyle) => {
-  let prompt = "Anda adalah asisten AI yang membantu menjawab pertanyaan berdasarkan dokumen yang diberikan. ";
+  let prompt = "Anda adalah asisten AI yang komprehensif dan memiliki pengetahuan luas di berbagai bidang, termasuk namun tidak terbatas pada matematika, sains, sejarah, sastra, dan topik lainnya. ";
   
   // Add instructions based on response style
   if (responseStyle === 'precise') {
@@ -1884,23 +1884,33 @@ const buildSystemPrompt = (isMathQuery, showThinkingProcess, responseStyle) => {
   } else { // balanced
     prompt += "Berikan jawaban yang seimbang antara kelengkapan dan kepadatan informasi berdasarkan dokumen. ";
   }
+
+  // Add specific instructions for better using context
+  prompt += "\n\nPenting: Gunakan konteks yang disediakan secara mendalam untuk menyusun jawaban. Bahkan jika jawaban spesifik tidak terdapat dalam dokumen, gunakan teori, konsep, dan pengetahuan dari dokumen untuk menghasilkan respons yang informatif. Tujuan Anda adalah membantu pengguna memahami topik dengan mengaitkan pertanyaan mereka dengan informasi dalam konteks.";
   
   // Add thinking process instructions if enabled
   if (showThinkingProcess) {
     prompt += "\n\nSEBELUM menjawab, tunjukkan proses berpikir secara komprehensif dengan format berikut:";
-    prompt += "\n<PROSES_BERPIKIR>\n1. Analisis pertanyaan untuk memahami maksud pengguna\n2. Identifikasi informasi relevan dari dokumen\n3. Susun jawaban berdasarkan informasi tersebut\n</PROSES_BERPIKIR>\n\nKemudian berikan jawaban Anda.";
+    prompt += "\n<PROSES_BERPIKIR>\n1. Analisis pertanyaan untuk memahami maksud pengguna\n2. Identifikasi konsep, teori, atau informasi relevan dalam dokumen\n3. Susun jawaban berdasarkan informasi tersebut, menggunakan penalaran berdasarkan konteks yang tersedia\n</PROSES_BERPIKIR>\n\nKemudian berikan jawaban Anda.";
   }
   
   // Add math-specific instructions if it's a math query
   if (isMathQuery) {
     prompt += "\n\nPertanyaan terkait dengan matematika, persamaan, atau konsep fisika. ";
     prompt += "Tuliskan persamaan matematik dalam format LaTeX yang benar (menggunakan $...$ untuk inline dan $$...$$ untuk display). ";
-    prompt += "Jelaskan arti setiap simbol dan interpretasi fisik dari persamaan jika perlu. ";
+    prompt += "Jelaskan arti setiap simbol dalam persamaan. ";
+    prompt += "\n\nUntuk pertanyaan tentang teorema, definisi, atau pembuktian matematika:";
+    prompt += "\n1. Identifikasi teorema/definisi/konsep yang relevan dari konteks dokumen";
+    prompt += "\n2. Aplikasikan teorema/konsep tersebut untuk menyusun jawaban atau bukti";
+    prompt += "\n3. Jelaskan penalaran matematika secara bertahap dengan jelas";
+  } else {
+    prompt += "\n\nUntuk pertanyaan umum, gunakan informasi yang relevan dari dokumen untuk membangun jawaban Anda. Jika tidak ada jawaban langsung dalam dokumen, bangun respons Anda berdasarkan pemahaman topik yang relevan dari dokumen.";
   }
   
   // General instructions for all queries
-  prompt += "\n\nSebutkan sumber informasi dengan jelas dan jujur jika Anda tidak menemukan informasi yang relevan dalam dokumen.";
-  prompt += "\nJANGAN mengarang informasi yang tidak ada dalam dokumen yang diberikan.";
+  prompt += "\n\nBerdasarkan konteks dokumen yang diberikan, buat jawaban yang komprehensif dengan paragraf yang terstruktur dengan baik. Jawaban Anda harap diformat dengan paragraf yang memiliki indent dan spasi yang tepat.";
+  prompt += "\n\nJika informasi dalam dokumen tidak cukup untuk menjawab pertanyaan dengan lengkap, berikan jawaban berdasarkan prinsip dan teori dari dokumen yang relevan dengan pertanyaan tersebut. Namun, jelaskan batasan dari jawaban Anda dengan jujur.";
+  prompt += "\n\nJANGAN mengarang fakta yang tidak ada dalam dokumen atau yang bertentangan dengan informasi dalam konteks yang diberikan.";
   
   return prompt;
 };

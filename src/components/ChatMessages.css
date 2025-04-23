@@ -282,6 +282,12 @@
   max-width: 100%;
   overflow-x: auto;
   margin: 1em 0;
+  white-space: pre-wrap;
+  background-color: var(--bg-secondary);
+  padding: 1rem;
+  border-radius: 0.375rem;
+  margin-bottom: 1em;
+  overflow-x: auto;
 }
 
 .markdown-content code:not(pre > code) {
@@ -414,9 +420,9 @@
 }
 
 .references-container {
-  margin-top: 1rem;
-  padding-top: 0.5rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 1.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-color);
 }
 
 [data-theme="dark"] .references-container {
@@ -425,7 +431,7 @@
 
 .references-title {
   font-weight: 600;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
   font-size: 0.875rem;
 }
 
@@ -477,4 +483,33 @@
     padding: 12px 8px;
     gap: 16px;
   }
+}
+
+/* Tambahkan styling khusus untuk memastikan paragraf ditampilkan dengan benar */
+.markdown-content p {
+  margin-bottom: 1em;
+  white-space: pre-wrap;
+}
+
+/* Memperbaiki tampilan konten LaTeX */
+.has-math .katex-display {
+  overflow-x: auto;
+  padding: 8px 0;
+}
+
+/* Tambahkan garis pemisah untuk referensi */
+.references-container {
+  margin-top: 1.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.references-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Memastikan konten user juga menampilkan paragraf dengan benar */
+.user-message-container .message-content {
+  white-space: pre-wrap;
 }

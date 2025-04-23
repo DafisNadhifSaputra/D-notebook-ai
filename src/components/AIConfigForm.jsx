@@ -297,6 +297,7 @@ const AIConfigForm = ({ config = {}, onSave, onCancel }) => {
           overflow: hidden;
           width: 100%;
           max-width: 550px;
+          max-height: 90vh; /* Increased from 70vh to 90vh */
           box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
           color: var(--text-primary);
         }
@@ -312,6 +313,7 @@ const AIConfigForm = ({ config = {}, onSave, onCancel }) => {
           padding: 16px 20px;
           border-bottom: 1px solid var(--border-color);
           background-color: var(--bg-secondary);
+          flex-shrink: 0; /* Prevent header from shrinking */
         }
 
         .config-panel-title {
@@ -319,18 +321,39 @@ const AIConfigForm = ({ config = {}, onSave, onCancel }) => {
           align-items: center;
           gap: 8px;
         }
-          background-color: var(--bg-secondary);
+
+        h3 {
+          margin: 0;
+          font-size: 16px;
+          font-weight: 600;
+        }
+
+        .config-close-btn {
+          background: transparent;
+          border: none;
+          color: var(--text-secondary);
+          cursor: pointer;
+          padding: 4px;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .config-close-btn:hover {
+          background-color: var(--bg-hover);
           color: var(--text-primary);
         }
 
         .config-panel-content {
           flex: 1;
           padding: 20px;
-          overflow-y: auto;
-          max-height: 70vh;
+          overflow-y: auto; /* Enable scrolling */
+          overflow-x: hidden;
           display: flex;
           flex-direction: column;
           gap: 24px;
+          -webkit-overflow-scrolling: touch; /* Better scrolling on iOS */
         }
 
         .config-group {
@@ -420,6 +443,17 @@ const AIConfigForm = ({ config = {}, onSave, onCancel }) => {
           gap: 12px;
           border-top: 1px solid var(--border-color);
           background-color: var(--bg-secondary);
+          flex-shrink: 0; /* Prevent footer from shrinking */
+          position: sticky;
+          bottom: 0;
+          width: 100%;
+          z-index: 10;
+        }
+
+        .save-error {
+          color: var(--error-color);
+          font-size: 14px;
+          margin-right: auto;
         }
 
         .btn {
@@ -443,6 +477,12 @@ const AIConfigForm = ({ config = {}, onSave, onCancel }) => {
         .btn-primary:hover {
           background-color: var(--primary-hover);
           transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+          transform: none;
         }
 
         .btn-secondary {
@@ -653,8 +693,15 @@ const AIConfigForm = ({ config = {}, onSave, onCancel }) => {
         }
 
         @media (max-width: 576px) {
+          .ai-config-panel {
+            width: 95%;
+            max-height: 85vh; /* Slightly smaller on mobile */
+            margin: 0 auto;
+          }
+          
           .config-panel-content {
             padding: 16px;
+            max-height: none; /* Remove fixed height on mobile */
           }
           
           .model-option {
@@ -667,6 +714,13 @@ const AIConfigForm = ({ config = {}, onSave, onCancel }) => {
           
           .model-description {
             font-size: 12px;
+          }
+
+          /* Make sure footer is always visible */
+          .config-panel-footer {
+            position: sticky;
+            bottom: 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
           }
         }
       `}</style>

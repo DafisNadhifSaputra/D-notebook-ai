@@ -109,7 +109,7 @@ button {
 /* Main layout - 3 kolom yang lebih stabil */
 .chatbot-layout {
   display: grid;
-  grid-template-columns: var(--sidebar-width) minmax(0, 1fr) 350px;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr) 350px; /* Default desktop layout */
   grid-template-areas: "sidebar main pdf-panel";
   height: 100vh;
   width: 100%;
@@ -118,7 +118,7 @@ button {
 }
 
 .chatbot-layout.sidebar-collapsed {
-  grid-template-columns: var(--sidebar-collapsed-width) minmax(0, 1fr) 350px;
+  grid-template-columns: var(--sidebar-collapsed-width) minmax(0, 1fr) 350px; /* Sidebar collapsed desktop */
 }
 
 /* Sidebar styling */
@@ -395,7 +395,7 @@ button {
 .sidebar-footer .sidebar-actions {
   display: flex;
   justify-content: space-between;
-  padding: 0;
+  padding: 0; /* Remove padding here as it's in sidebar-footer */
 }
 
 .settings-btn,
@@ -439,10 +439,11 @@ button {
   overflow: hidden;
   transition: all var(--transition-normal);
   background-color: var(--bg-primary);
+  grid-area: main; /* Assign to grid area */
 }
 
 .sidebar-collapsed .chat-main {
-  margin-left: 0;
+  margin-left: 0; /* No margin needed with grid */
 }
 
 .chat-header {
@@ -452,6 +453,8 @@ button {
   display: flex;
   align-items: center;
   background-color: var(--header-bg);
+  z-index: 5; /* Ensure header is above messages */
+  position: relative; /* Needed for z-index */
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
@@ -472,6 +475,7 @@ button {
   background-color: var(--bg-secondary);
   transition: all 0.3s ease;
   overflow: hidden;
+  flex-shrink: 0; /* Prevent shrinking */
 }
 
 .upload-section-collapsed {
@@ -552,6 +556,9 @@ button {
   position: relative;
   padding: var(--spacing-md);
   background-color: var(--bg-primary);
+  display: flex; /* Use flex for messages */
+  flex-direction: column;
+  gap: 24px; /* Gap between messages */
 }
 
 /* Input section */
@@ -559,6 +566,7 @@ button {
   border-top: 1px solid var(--border-color);
   padding: var(--spacing-md);
   background-color: var(--bg-secondary);
+  flex-shrink: 0; /* Prevent shrinking */
 }
 
 /* Modals */
@@ -614,6 +622,378 @@ button {
 }
 
 /* Responsive styles */
+@media (max-width: 992px) {
+  .chatbot-layout {
+    grid-template-columns: var(--sidebar-width) 1fr; /* Remove PDF panel column */
+    grid-template-areas: "sidebar main";
+  }
+
+  .chatbot-layout.sidebar-collapsed {
+    grid-template-columns: var(--sidebar-collapsed-width) 1fr;
+  }
+
+  .pdf-panel {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 350px; /* Fixed width for overlay */
+    transform: translateX(100%); /* Hide by default */
+    z-index: 99;
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.3s ease;
+  }
+
+  .pdf-panel.active {
+    transform: translateX(0); /* Show when active */
+  }
+
+  .pdf-toggle-btn {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 98; /* Below modal, above other content */
+    background-color: var(--primary-color);
+    color: white;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+    transition: all 0.2s ease;
+  }
+
+  .pdf-toggle-btn:hover {
+    transform: scale(1.05);
+    background-color: var(--primary-hover);
+  }
+
+  /* Hide PDF toggle button when panel is active */
+  .pdf-panel.active + .pdf-toggle-btn {
+     transform: translateX(calc(100% + 20px)); /* Move off-screen */
+     opacity: 0;
+     pointer-events: none;
+  }
+
+  /* Tombol untuk membuka sidebar pada tampilan desktop */
+  .open-sidebar-btn {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    z-index: 50;
+    background-color: var(--primary-color);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .open-sidebar-btn:hover {
+    transform: scale(1.05);
+    background-color: var(--primary-hover);
+  }
+
+  /* Sembunyikan tombol buka sidebar saat sidebar sudah terbuka */
+  .chatbot-layout:not(.sidebar-collapsed) .open-sidebar-btn {
+    display: none;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    transform: translateX(-100%);
+    width: 280px; /* Slightly smaller sidebar on smaller screens */
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .chat-main {
+    margin-left: 0; /* No margin needed with fixed sidebar */
+  }
+
+  .chat-header {
+    padding: 0 var(--spacing-md); /* Reduce header padding */
+  }
+
+  .sidebar-toggle {
+    display: flex; /* Show mobile sidebar toggle */
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 101; /* Above sidebar */
+    background-color: var(--primary-color);
+    color: white;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    box-shadow: var(--shadow-md);
+    transition: all 0.2s ease;
+  }
+
+  .sidebar.active .sidebar-toggle {
+    left: 228px; /* Position toggle button when sidebar is open */
+    background-color: var(--error-color); /* Change color when active */
+  }
+
+  .sidebar-header .sidebar-toggle {
+    position: static; /* Reset position for the one inside header */
+    background-color: transparent;
+    color: var(--text-light);
+    width: auto;
+    height: auto;
+    box-shadow: none;
+  }
+
+  .modal {
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  /* Hide desktop open sidebar button on mobile */
+  .open-sidebar-btn {
+    display: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .pdf-panel {
+    width: 100%; /* Full width on very small screens */
+  }
+
+  .pdf-toggle-btn {
+    right: 10px;
+    bottom: 10px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .pdf-panel.active + .pdf-toggle-btn {
+     transform: translateX(calc(100% + 10px)); /* Adjust off-screen position */
+  }
+}
+
+
+@media (max-width: 480px) {
+  .sidebar-actions {
+    flex-wrap: wrap;
+  }
+
+  .new-chat-btn {
+    width: 100%;
+  }
+
+  .clear-all-btn {
+    width: 100%;
+    margin-top: var(--spacing-xs);
+  }
+
+  .chat-header {
+    padding: 0 var(--spacing-sm); /* Further reduce header padding */
+  }
+
+  .upload-section, .messages-section, .input-section {
+    padding: var(--spacing-sm); /* Reduce section padding */
+  }
+
+  .sidebar {
+    width: 250px; /* Even smaller sidebar */
+  }
+
+  .sidebar.active .sidebar-toggle {
+    left: 198px; /* Adjust toggle position */
+  }
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(var(--primary-color-rgb), 0.3);
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(var(--primary-color-rgb), 0.5);
+}
+
+/* Empty state styles */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  padding: var(--spacing-lg);
+  color: var(--text-light);
+  gap: var(--spacing-md);
+}
+
+.empty-state svg {
+  color: var(--primary-color);
+  opacity: 0.5;
+  width: 48px;
+  height: 48px;
+}
+
+.empty-state h3 {
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.empty-state p {
+  max-width: 500px;
+  margin: 0;
+}
+
+/* PDF Panel di sebelah kanan */
+.pdf-panel {
+  height: 100vh;
+  background-color: var(--bg-secondary);
+  border-left: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  grid-area: pdf-panel; /* Assign to grid area */
+}
+
+.pdf-panel-header {
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.pdf-panel-header h3 {
+  margin: 0;
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.pdf-panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.share-docs-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--primary-color-subtle);
+  color: var(--primary-color);
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.share-docs-btn:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+@media (max-width: 640px) {
+  .share-docs-btn span {
+    display: none; /* Hide text on smaller screens */
+  }
+}
+
+/* Responsive adjustments for PDF Panel */
+@media (max-width: 992px) {
+  .chatbot-layout {
+    grid-template-columns: var(--sidebar-width) 1fr;
+  }
+  
+  .chatbot-layout.sidebar-collapsed {
+    grid-template-columns: var(--sidebar-collapsed-width) 1fr;
+  }
+  
+  .pdf-panel {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 350px;
+    transform: translateX(100%);
+    z-index: 99;
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.3s ease;
+  }
+  
+  .pdf-panel.active {
+    transform: translateX(0);
+  }
+  
+  .pdf-toggle-btn {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 98;
+    background-color: var(--primary-color);
+    color: white;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+  }
+}
+
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
@@ -769,12 +1149,14 @@ button {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  grid-area: pdf-panel; /* Assign to grid area */
 }
 
 .pdf-panel-header {
   padding: var(--spacing-md);
   border-bottom: 1px solid var(--border-color);
   background-color: var(--bg-secondary);
+  flex-shrink: 0; /* Prevent shrinking */
 }
 
 .pdf-panel-header h3 {
@@ -817,7 +1199,7 @@ button {
 
 @media (max-width: 640px) {
   .share-docs-btn span {
-    display: none;
+    display: none; /* Hide text on smaller screens */
   }
 }
 
@@ -861,6 +1243,88 @@ button {
     align-items: center;
     justify-content: center;
     box-shadow: var(--shadow-md);
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    transform: translateX(-100%);
+    width: 280px;
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .sidebar.active {
+    transform: translateX(0);
+  }
+  
+  .chat-main {
+    margin-left: 0;
+  }
+  
+  .chat-header {
+    padding: 0 var(--spacing-md);
+  }
+  
+  .sidebar-toggle {
+    display: flex;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 101;
+    background-color: var(--primary-color);
+    color: white;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    box-shadow: var(--shadow-md);
+  }
+  
+  .sidebar.active .sidebar-toggle {
+    left: 228px;
+    background-color: var(--error-color);
+  }
+  
+  .sidebar-header .sidebar-toggle {
+    position: static;
+    background-color: transparent;
+    color: var(--text-light);
+    width: auto;
+    height: auto;
+    box-shadow: none;
+  }
+  
+  .modal {
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar-actions {
+    flex-wrap: wrap;
+  }
+  
+  .new-chat-btn {
+    width: 100%;
+  }
+  
+  .clear-all-btn {
+    width: 100%;
+    margin-top: var(--spacing-xs);
+  }
+  
+  .chat-header {
+    padding: 0 var(--spacing-sm);
+  }
+  
+  .upload-section, .messages-section, .input-section {
+    padding: var(--spacing-sm);
   }
 }
 

@@ -147,7 +147,7 @@
 
 /* Thinking process styling */
 .thinking-container {
-  width: 96%;
+  width: 96%; /* Default width */
   margin-left: auto;
   margin-right: auto;
   background-color: var(--card-bg);
@@ -215,6 +215,7 @@
 .message-actions {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap; /* Allow actions to wrap on small screens */
 }
 
 .message-action-btn {
@@ -302,6 +303,8 @@
   border-collapse: collapse;
   width: 100%;
   margin: 1em 0;
+  overflow-x: auto; /* Ensure tables are scrollable on small screens */
+  display: block; /* Make table a block element for overflow */
 }
 
 .markdown-content table th,
@@ -450,38 +453,124 @@
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
   .message {
-    max-width: 85%;
+    max-width: 95%; /* Increase max width on smaller screens */
+    padding: 10px 14px; /* Adjust padding */
   }
 
   .user-message {
-    margin-left: 16px;
+    margin-left: 8px; /* Adjust margin */
   }
 
   .assistant-message {
-    margin-right: 16px;
+    margin-right: 8px; /* Adjust margin */
   }
 
   .thinking-container {
-    width: 100%;
+    width: 98%; /* Increase width */
+    padding: 10px 14px; /* Adjust padding */
+  }
+
+  .thinking-header {
+    padding: 10px 14px; /* Adjust padding */
+    font-size: 0.85rem; /* Adjust font size */
+  }
+
+  .thinking-content {
+    padding: 10px 14px; /* Adjust padding */
+    font-size: 0.85rem; /* Adjust font size */
+  }
+
+  .message-controls {
+    flex-direction: column; /* Stack controls vertically */
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .message-actions {
+    flex-wrap: wrap; /* Ensure actions wrap */
+    gap: 6px; /* Adjust gap */
+  }
+
+  .message-action-btn {
+    font-size: 0.75rem; /* Adjust font size */
+    padding: 1px 3px; /* Adjust padding */
+  }
+
+  .message-rating {
+    margin-top: 4px; /* Add space above rating */
+  }
+
+  .rating-btn {
+    width: 20px; /* Smaller rating buttons */
+    height: 20px;
+  }
+
+  .markdown-content pre {
+    padding: 0.8rem; /* Adjust padding */
+  }
+
+  .markdown-content code:not(pre > code) {
+    padding: 1px 3px; /* Adjust padding */
+  }
+
+  .references-container {
+    margin-top: 1rem; /* Adjust margin */
+    padding-top: 0.5rem; /* Adjust padding */
+  }
+
+  .references-title {
+    font-size: 0.8rem; /* Adjust font size */
+  }
+
+  .reference-item {
+    font-size: 0.7rem; /* Adjust font size */
   }
 }
 
 @media (max-width: 480px) {
   .message {
-    max-width: 95%;
+    max-width: 100%; /* Full width on very small screens */
+    padding: 8px 12px; /* Further adjust padding */
   }
 
   .user-message {
-    margin-left: 8px;
+    margin-left: 4px; /* Further adjust margin */
   }
 
   .assistant-message {
-    margin-right: 8px;
+    margin-right: 4px; /* Further adjust margin */
   }
 
-  .chat-messages {
-    padding: 12px 8px;
-    gap: 16px;
+  .thinking-container {
+    width: 100%; /* Full width */
+    padding: 8px 12px; /* Further adjust padding */
+  }
+
+  .thinking-header {
+    padding: 8px 12px; /* Further adjust padding */
+    font-size: 0.8rem; /* Further adjust font size */
+  }
+
+  .thinking-content {
+    padding: 8px 12px; /* Further adjust padding */
+    font-size: 0.8rem; /* Further adjust font size */
+  }
+
+  .markdown-content pre {
+    padding: 0.6rem; /* Further adjust padding */
+  }
+
+  .references-container {
+    margin-top: 0.8rem; /* Further adjust margin */
+    padding-top: 0.4rem; /* Further adjust padding */
+  }
+
+  .references-title {
+    font-size: 0.75rem; /* Further adjust font size */
+  }
+
+  .reference-item {
+    font-size: 0.65rem; /* Further adjust font size */
   }
 }
 
